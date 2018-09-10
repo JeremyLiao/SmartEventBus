@@ -14,33 +14,36 @@ import org.gradle.api.Task;
  */
 public class ModularBusPlugin implements Plugin<Project> {
 
-    private static final String TAG = "-----------ModularBusPlugin----------";
+    public static final String NAME = "ModularBus";
 
     @Override
     public void apply(Project project) {
-        System.out.println(TAG + "enter apply");
+        ModularBusExtension extension = project.getExtensions().create(NAME, ModularBusExtension.class);
+        ModularBusLogger.setConfig(extension);
+        ModularBusLogger.info("Enter ModularBusPlugin");
         project.afterEvaluate(new Action<Project>() {
             @Override
             public void execute(Project project) {
-                applyTasks(project);
+                if (extension.getEnable()) {
+                    applyTasks(project);
+                }
             }
         });
     }
 
     private void applyTasks(Project project) {
-        System.out.println(TAG + "enter applyTasks");
         DomainObjectSet<ApplicationVariant> variants =
                 project.getExtensions().findByType(AppExtension.class).getApplicationVariants();
         for (ApplicationVariant variant : variants) {
             String variantName = capitalize(variant.getName());
-            System.out.println(TAG + "variantName: " + variantName);
+            ModularBusLogger.info("variantName: " + variantName);
             ModularBusProcessor processor = new ModularBusProcessor();
             Task mergeJavaResTask = project.getTasks().findByName(
                     "transformResourcesWithMergeJavaResFor" + variantName);
             mergeJavaResTask.doLast(new Action<Task>() {
                 @Override
                 public void execute(Task task) {
-                    System.out.println(TAG + "task: " + task.toString());
+                    ModularBusLogger.info("task: " + task.toString());
                     processor.findServices(project, mergeJavaResTask.getOutputs(), variant);
                     processor.writeToAssets(project, variant);
                 }

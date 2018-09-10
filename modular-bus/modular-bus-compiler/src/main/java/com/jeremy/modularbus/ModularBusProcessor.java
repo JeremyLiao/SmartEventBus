@@ -48,7 +48,7 @@ import static com.google.common.base.Charsets.UTF_8;
 @AutoService(Processor.class)
 public class ModularBusProcessor extends AbstractProcessor {
 
-    private static final String TAG = "-----------ModularBusProcessor----------";
+    private static final String TAG = "[ModularBusProcessor]";
     private static final String MODULAR_BUS_PATH = "META-INF/modularbus/";
     public static final String GEN_PKG = "com.jeremy.modularbus.generated";
     public static final String CLN_PREFIX = "EventsDefineOf";

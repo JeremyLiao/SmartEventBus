@@ -36,7 +36,6 @@ import java.util.zip.ZipOutputStream;
  */
 public class ModularBusProcessor {
 
-    private static final String TAG = "-----------ModularBusProcessor----------";
     private static final String MODULAR_PATH = "META-INF/modularbus/";
     private static final String ASSET_PATH = "modularbus/";
     private static final String ASSET_File = "modular_bus_info";
@@ -45,20 +44,20 @@ public class ModularBusProcessor {
 
     public void findServices(Project project, TaskOutputs outputs, ApplicationVariant variant) {
         if (!outputs.getHasOutput()) {
-            System.out.println(TAG + "no output");
+            ModularBusLogger.info("no output");
             return;
         }
 
-        System.out.println(TAG + "findServices");
+        ModularBusLogger.info("Start findServices");
         long ms = System.currentTimeMillis();
         FileCollection files = outputs.getFiles();
         for (File file : files) {
             String path = file.getPath();
             FileTree tree = project.fileTree(new HashMap<String, Object>() {{
-                System.out.println(TAG + "put dir: " + file);
+                ModularBusLogger.info("put dir: " + file);
                 put("dir", file);
             }});
-            System.out.println(TAG + "process file tree: " + file);
+            ModularBusLogger.info("process file tree: " + file);
 
             processDirectories(path, tree);
 
@@ -71,8 +70,7 @@ public class ModularBusProcessor {
             put("dir", servicesFolderName);
         }});
 
-        System.out.println(TAG + "process classes dir:" + servicesTree);
-
+        ModularBusLogger.info("process classes dir:" + servicesTree);
         servicesTree.visit(new FileVisitor() {
             @Override
             public void visitDir(FileVisitDetails fileVisitDetails) {
@@ -88,11 +86,11 @@ public class ModularBusProcessor {
 
     public void writeToAssets(Project project, ApplicationVariant variant) {
         if (moduleInfos.isEmpty()) {
-            System.out.println(TAG + "writeToAssets kipped, no service found");
+            ModularBusLogger.info("writeToAssets kipped, no service found");
             return;
         }
 
-        System.out.println(TAG + "writeToAssets start...");
+        ModularBusLogger.info("writeToAssets start...");
         long ms = System.currentTimeMillis();
         File dir = new File(getAssetsDir(project, variant, ASSET_PATH));
         if (dir.isFile()) {
@@ -101,7 +99,7 @@ public class ModularBusProcessor {
         dir.mkdirs();
         try (PrintWriter writer = new PrintWriter(new File(dir, ASSET_File))) {
             for (String moduleInfo : moduleInfos) {
-                System.out.println(TAG + "writeToAssets moduleInfo: " + moduleInfo);
+                ModularBusLogger.info("writeToAssets moduleInfo: " + moduleInfo);
                 writer.println(moduleInfo);
             }
             writer.flush();
@@ -109,7 +107,7 @@ public class ModularBusProcessor {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println(TAG + "writeToAssets cost: " + (System.currentTimeMillis() - ms));
+        ModularBusLogger.info("writeToAssets cost: " + (System.currentTimeMillis() - ms));
     }
 
     private static String getAssetsDir(Project project, ApplicationVariant variant, String path) {
@@ -145,7 +143,7 @@ public class ModularBusProcessor {
     }
 
     private void processFile(File f) {
-        System.out.println(TAG + "processFile: " + f);
+        ModularBusLogger.info("processFile: " + f);
         try (BufferedReader reader = new BufferedReader(new FileReader(f))) {
             processFileContent(reader, f.getName());
         } catch (IOException e) {
@@ -156,7 +154,7 @@ public class ModularBusProcessor {
 
     private void processFileContent(BufferedReader reader, String moduleName)
             throws IOException {
-        System.out.println(TAG + "processFileContent moduleName: " + moduleName);
+        ModularBusLogger.info("processFileContent moduleName: " + moduleName);
         StringBuffer stringBuffer = new StringBuffer();
         String line;
         while ((line = reader.readLine()) != null) {
@@ -166,10 +164,10 @@ public class ModularBusProcessor {
     }
 
     private void processJarFile(File jarFile) {
-        System.out.println(TAG + "processJarFile: " + jarFile);
+        ModularBusLogger.info("processJarFile: " + jarFile);
         try (ZipFile zipFile = new ZipFile(jarFile)) {
             if (hasServiceEntry(zipFile)) {
-                System.out.println(TAG + "hasServiceEntry: " + zipFile);
+                ModularBusLogger.info("hasServiceEntry: " + zipFile);
                 File tempFile = new File(jarFile.getPath() + ".tmp");
                 try (ZipInputStream is = new ZipInputStream(new FileInputStream(jarFile));
                      ZipOutputStream os = new ZipOutputStream(new FileOutputStream(tempFile))) {
@@ -177,9 +175,9 @@ public class ModularBusProcessor {
                     while ((entry = is.getNextEntry()) != null) {
                         if (isServiceEntry(entry)) {
                             try {
-                                System.out.println(TAG + "entry name: " + entry.getName());
+                                ModularBusLogger.info("entry name: " + entry.getName());
                                 String moduleName = getSuffix(entry.getName(), "/");
-                                System.out.println(TAG + "moduleName: " + moduleName);
+                                ModularBusLogger.info("moduleName: " + moduleName);
                                 BufferedReader reader = new BufferedReader(
                                         new InputStreamReader(is));
                                 processFileContent(reader, moduleName);
