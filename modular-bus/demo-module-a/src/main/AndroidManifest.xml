@@ -1,0 +1,7 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.jeremy.demo_module_a">
+
+    <application>
+        <activity android:name=".ModuleAActivity" />
+    </application>
+</manifest>
