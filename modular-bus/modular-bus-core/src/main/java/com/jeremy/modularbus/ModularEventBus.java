@@ -32,6 +32,8 @@ public final class ModularEventBus {
         return SingletonHolder.DEFAULT_BUS;
     }
 
+    private final String DEFAULT_ERROR_MODULE_NAME = "default_error_module_name";
+    private final String TAG = "----ModularEventBus----";
     private final Map<String, Map<String, BusLiveEvent<Object>>> bus;
     private final Observable empty = new EmptyObservable();
     private final Map<String, String> moduleNameMap = new HashMap<>();
@@ -60,6 +62,11 @@ public final class ModularEventBus {
 
     public synchronized <T extends IEventsDefine> T of(Class<T> interfaceType) {
         String moduleName = moduleNameMap.get(interfaceType.getCanonicalName());
+        if (TextUtils.isEmpty(moduleName)) {
+            //通常是不会走到这的，如果走到这说明程序有问题
+            moduleName = DEFAULT_ERROR_MODULE_NAME;
+            Log.e(TAG, "Not found module name for class: " + interfaceType.getCanonicalName());
+        }
         if (!bus.containsKey(moduleName)) {
             bus.put(moduleName, new HashMap<String, BusLiveEvent<Object>>());
         }
