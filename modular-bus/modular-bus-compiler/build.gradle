@@ -7,10 +7,11 @@ dependencies {
     implementation 'com.google.auto.service:auto-service:1.0-rc2'
     compile 'com.squareup:javapoet:1.11.1'
     compile project(':modular-bus-base')
-//    compile 'com.jeremy:modular-bus-base:0.0.1'
+//    compile 'com.jeremy:modular-bus-base:0.1.0'
     compileOnly files(Jvm.current().getToolsJar())
 }
 
 sourceCompatibility = "1.7"
 targetCompatibility = "1.7"
+
 
