@@ -15,4 +15,10 @@
         android:onClick="sendMsg"
         android:text="发送消息" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="sendUserDefineMsg"
+        android:text="发送自定义消息" />
+
 </LinearLayout>

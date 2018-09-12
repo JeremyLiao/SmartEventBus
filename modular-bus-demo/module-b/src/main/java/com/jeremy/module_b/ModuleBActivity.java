@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.jeremy.modularbus.ModularEventBus;
 import com.jeremy.modularbus.generated.module_b.EventsDefineOfModuleBEvents;
+import com.jeremy.module_b_export.TestEventBean;
 
 
 public class ModuleBActivity extends AppCompatActivity {
@@ -21,7 +22,14 @@ public class ModuleBActivity extends AppCompatActivity {
     public void sendMsg(View view) {
         ModularEventBus.get()
                 .of(EventsDefineOfModuleBEvents.class)
-                .EVENT1()
+                .SAY_HELLO()
                 .setValue("Hello world!");
+    }
+
+    public void sendUserDefineMsg(View view) {
+        ModularEventBus.get()
+                .of(EventsDefineOfModuleBEvents.class)
+                .EVENT1()
+                .setValue(new TestEventBean("aa"));
     }
 }
