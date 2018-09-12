@@ -5,8 +5,8 @@ apply plugin: 'java'
 dependencies {
     implementation 'com.google.auto.service:auto-service:1.0-rc2'
     implementation 'com.squareup:javapoet:1.11.1'
-    compile project(':modular-bus-base')
-//    compile 'com.jeremy:modular-bus-base:0.1.0'
+    implementation project(':modular-bus-base')
+//    implementation 'com.jeremy:modular-bus-base:0.1.2'
     compileOnly files(Jvm.current().getToolsJar())
 }
 
