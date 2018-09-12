@@ -3,9 +3,8 @@ import org.gradle.internal.jvm.Jvm
 apply plugin: 'java'
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.google.auto.service:auto-service:1.0-rc2'
-    compile 'com.squareup:javapoet:1.11.1'
+    implementation 'com.squareup:javapoet:1.11.1'
     compile project(':modular-bus-base')
 //    compile 'com.jeremy:modular-bus-base:0.1.0'
     compileOnly files(Jvm.current().getToolsJar())

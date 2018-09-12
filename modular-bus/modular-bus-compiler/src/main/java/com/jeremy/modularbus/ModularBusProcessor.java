@@ -5,6 +5,7 @@ import com.jeremy.modularbus.anotation.ModuleEvents;
 import com.jeremy.modularbus.inner.bean.Event;
 import com.jeremy.modularbus.inner.bean.ModuleEventsInfo;
 import com.jeremy.modularbus.inner.utils.GsonUtil;
+import com.squareup.javapoet.AnnotationSpec;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeSpec;
@@ -28,8 +29,11 @@ import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.SourceVersion;
+import javax.lang.model.element.AnnotationMirror;
+import javax.lang.model.element.AnnotationValue;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
+import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.Modifier;
 import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
@@ -51,6 +55,10 @@ public class ModularBusProcessor extends AbstractProcessor {
     private static final String TAG = "[ModularBusProcessor]";
     private static final String MODULAR_BUS_PATH = "META-INF/modularbus/";
     public static final String GEN_PKG = "com.jeremy.modularbus.generated";
+    public static final String EVENTSDEFINE_CLASS_NAME = "com.jeremy.modularbus.base.IEventsDefine";
+    public static final String OBSERVABLE_CLASS_NAME = "com.jeremy.modularbus.Observable<%s>";
+    public static final String OBJECT_CLASS_NAME = "java.lang.Object";
+    public static final String OANOTATION_NAME = "com.jeremy.modularbus.anotation.EventType";
     public static final String CLN_PREFIX = "EventsDefineOf";
 
     protected Filer filer;
@@ -100,15 +108,18 @@ public class ModularBusProcessor extends AbstractProcessor {
                 for (Element element1 : enclosedElements) {
                     if (element1.getKind() == ElementKind.FIELD) {
                         VariableElement variableElement = (VariableElement) element1;
+
                         String variableName = variableElement.getSimpleName().toString();
                         Object variableValue = variableElement.getConstantValue();
+                        String eventType = getEventType(element1);
                         System.out.println(TAG + "variableName: " + variableName + " | variableValue: " + variableValue);
                         Event event = new Event();
                         event.setName(variableName);
-                        if (variableValue != null && variableValue instanceof String) {
+                        if (variableValue instanceof String) {
                             event.setValue((String) variableValue);
-                            events.add(event);
                         }
+                        event.setType(eventType);
+                        events.add(event);
                     }
                 }
                 eventsInfo.setEvents(events);
@@ -119,16 +130,38 @@ public class ModularBusProcessor extends AbstractProcessor {
         }
     }
 
+    private String getEventType(Element element1) {
+        List<? extends AnnotationMirror> annotationMirrors = elements.getAllAnnotationMirrors(element1);
+        if (annotationMirrors != null && annotationMirrors.size() > 0) {
+            for (AnnotationMirror annotationMirror : annotationMirrors) {
+                if (OANOTATION_NAME.equals(annotationMirror.getAnnotationType().toString())) {
+                    System.out.println(TAG + "annotationMirror: " + annotationMirror.getAnnotationType().toString());
+                    if (annotationMirror.getElementValues() != null) {
+                        for (AnnotationValue annotationValue : annotationMirror.getElementValues().values()) {
+                            return annotationValue.getValue().toString();
+                        }
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
     private String generateEventInterfaceClass(ModuleEventsInfo eventsInfo, String originalClassName, String moduleName) {
         String interfaceName = generateClassName(originalClassName);
         TypeSpec.Builder builder = TypeSpec.interfaceBuilder(interfaceName)
                 .addModifiers(Modifier.PUBLIC)
-                .addSuperinterface(TypeVariableName.get("com.jeremy.modularbus.base.IEventsDefine"));
+                .addSuperinterface(TypeVariableName.get(EVENTSDEFINE_CLASS_NAME));
         for (Event event : eventsInfo.getEvents()) {
+            String returnTypeName = null;
+            if (event.getType() == null || event.getType().length() == 0) {
+                returnTypeName = String.format(OBSERVABLE_CLASS_NAME, OBJECT_CLASS_NAME);
+            } else {
+                returnTypeName = String.format(OBSERVABLE_CLASS_NAME, event.getType());
+            }
             builder.addMethod(MethodSpec.methodBuilder(event.getName())
                     .addModifiers(Modifier.PUBLIC, Modifier.ABSTRACT)
-                    .returns(TypeVariableName.get("<T> com.jeremy.modularbus.Observable<T>"))
-                    .addParameter(TypeVariableName.get("java.lang.Class<T>..."), "type")
+                    .returns(TypeVariableName.get(returnTypeName))
                     .build());
         }
         TypeSpec typeSpec = builder.build();

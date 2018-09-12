@@ -19,7 +19,6 @@ android {
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:27.1.1'
     api project(':modular-bus-base')
 //    compile 'com.jeremy:modular-bus-base:0.1.0'

@@ -32,8 +32,8 @@ public final class ModularEventBus {
         return SingletonHolder.DEFAULT_BUS;
     }
 
-    private final String DEFAULT_ERROR_MODULE_NAME = "default_error_module_name";
-    private final String TAG = "----ModularEventBus----";
+    private static final String DEFAULT_ERROR_MODULE_NAME = "default_error_module_name";
+    private static final String TAG = "----ModularEventBus----";
     private final Map<String, Map<String, BusLiveEvent<Object>>> bus;
     private final Observable empty = new EmptyObservable();
     private final Map<String, String> moduleNameMap = new HashMap<>();
@@ -60,6 +60,7 @@ public final class ModularEventBus {
         }
     }
 
+    @SuppressWarnings("unchecked")
     public synchronized <T extends IEventsDefine> T of(Class<T> interfaceType) {
         String moduleName = moduleNameMap.get(interfaceType.getCanonicalName());
         if (TextUtils.isEmpty(moduleName)) {

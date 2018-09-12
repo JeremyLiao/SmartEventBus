@@ -1,13 +1,12 @@
-package com.jeremy.modularbus.inner.bean;
+package com.jeremy.modularbus_app.event;
 
 /**
  * Created by liaohailiang on 2018/9/6.
  */
-public class Event {
+public class TestEventBean {
 
     private String name;
     private String value;
-    private String type;
 
     public String getName() {
         return name;
@@ -23,13 +22,5 @@ public class Event {
 
     public void setValue(String value) {
         this.value = value;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 }
