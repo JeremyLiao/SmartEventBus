@@ -1,0 +1,7 @@
+apply plugin: 'java'
+dependencies {
+    implementation 'com.google.code.gson:gson:2.8.5'
+}
+
+sourceCompatibility = "1.7"
+targetCompatibility = "1.7"
