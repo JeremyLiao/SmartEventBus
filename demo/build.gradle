@@ -3,9 +3,6 @@
 buildscript {
 
     repositories {
-        maven {
-            url "https://dl.bintray.com/liaohailiang/maven/"
-        }
         google()
         jcenter()
     }
@@ -20,9 +17,6 @@ buildscript {
 
 allprojects {
     repositories {
-        maven {
-            url "https://dl.bintray.com/liaohailiang/maven/"
-        }
         google()
         jcenter()
     }
