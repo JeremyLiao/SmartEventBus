@@ -5,9 +5,9 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.jeremy.livecallbus.LiveCallEventBus;
-import com.jeremy.livecallbus.generated.module_b.EventsDefineOfModuleBEvents;
 import com.jeremy.module_b_export.TestEventBean;
+import com.jeremy.module_b_export.generated.im.EventsDefineAsModuleBEvents;
+import com.jeremyliao.im.core.InvokingMessage;
 
 
 public class ModuleBActivity extends AppCompatActivity {
@@ -20,15 +20,17 @@ public class ModuleBActivity extends AppCompatActivity {
     }
 
     public void sendMsg(View view) {
-        LiveCallEventBus.get()
-                .of(EventsDefineOfModuleBEvents.class)
+        InvokingMessage
+                .get()
+                .as(EventsDefineAsModuleBEvents.class)
                 .SAY_HELLO()
                 .setValue("Hello world!");
     }
 
     public void sendUserDefineMsg(View view) {
-        LiveCallEventBus.get()
-                .of(EventsDefineOfModuleBEvents.class)
+        InvokingMessage
+                .get()
+                .as(EventsDefineAsModuleBEvents.class)
                 .EVENT1()
                 .setValue(new TestEventBean("aa"));
     }

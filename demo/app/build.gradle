@@ -1,9 +1,8 @@
 apply plugin: 'com.android.application'
-apply plugin: 'live-call-bus-plugin'
 apply from: "${project.rootDir}/base_config.gradle"
 android {
     defaultConfig {
-        applicationId "com.jeremy.modular_bus_demo"
+        applicationId "com.jeremy.demo"
     }
     buildTypes {
         release {

@@ -6,9 +6,9 @@ import android.support.annotation.Nullable;
 import android.widget.Toast;
 
 import com.jeremy.lib_common.BaseActivity;
-import com.jeremy.livecallbus.LiveCallEventBus;
-import com.jeremy.livecallbus.generated.module_b.EventsDefineOfModuleBEvents;
 import com.jeremy.module_b_export.TestEventBean;
+import com.jeremy.module_b_export.generated.im.EventsDefineAsModuleBEvents;
+import com.jeremyliao.im.core.InvokingMessage;
 
 
 public class ModuleAActivity extends BaseActivity {
@@ -16,9 +16,9 @@ public class ModuleAActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LiveCallEventBus
+        InvokingMessage
                 .get()
-                .of(EventsDefineOfModuleBEvents.class)
+                .as(EventsDefineAsModuleBEvents.class)
                 .SAY_HELLO()
                 .observe(this, new Observer<String>() {
                     @Override
@@ -26,9 +26,9 @@ public class ModuleAActivity extends BaseActivity {
                         Toast.makeText(ModuleAActivity.this, "ModuleA receive a msg: " + s, Toast.LENGTH_SHORT).show();
                     }
                 });
-        LiveCallEventBus
+        InvokingMessage
                 .get()
-                .of(EventsDefineOfModuleBEvents.class)
+                .as(EventsDefineAsModuleBEvents.class)
                 .EVENT1()
                 .observe(this, new Observer<TestEventBean>() {
                     @Override

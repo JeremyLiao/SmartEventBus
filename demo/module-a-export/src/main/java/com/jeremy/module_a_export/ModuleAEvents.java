@@ -1,13 +1,12 @@
 package com.jeremy.module_a_export;
 
-
-import com.jeremy.livecallbus.anotation.EventType;
-import com.jeremy.livecallbus.anotation.LiveCallEvents;
+import com.jeremyliao.im.base.annotation.EventType;
+import com.jeremyliao.im.base.annotation.InvokingEventsDefine;
 
 /**
  * Created by liaohailiang on 2018/8/18.
  */
-@LiveCallEvents()
+@InvokingEventsDefine()
 public class ModuleAEvents {
 
     @EventType(String.class)
