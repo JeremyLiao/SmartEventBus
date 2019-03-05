@@ -1,0 +1,4 @@
+include ':app'
+include ':invoking-message:core'
+include ':invoking-message:base'
+include ':invoking-message:compiler'
