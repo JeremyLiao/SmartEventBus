@@ -1,5 +1,5 @@
 # invoking-message
-![license](https://img.shields.io/github/license/JeremyLiao/invoking-message.svg) [![version](https://img.shields.io/badge/JCenter-v1.0.0-blue.svg)](https://mvnrepository.com/artifact/com.jeremyliao/live-event-bus)
+![license](https://img.shields.io/github/license/JeremyLiao/invoking-message.svg) [![version](https://img.shields.io/badge/JCenter-v1.0.1-blue.svg)](https://mvnrepository.com/artifact/com.jeremyliao/live-event-bus)
 
 invoking-message是一款Android平台消息总线框架，基于[LiveEventBus](https://github.com/JeremyLiao/LiveEventBus)实现。它颠覆了传统消息总线定义和使用的方式，通过链式的方法调用发送和接收消息，使用更简单。
 
@@ -42,7 +42,7 @@ public class DemoEvents {
 定义了消息的Module，需要在build.gradle中使用compiler处理注解：
 
 ```
-annotationProcessor 'com.jeremyliao:invoking-message-compiler:1.0.0'
+annotationProcessor 'com.jeremyliao:invoking-message-compiler:1.0.1'
 ```
 **关键点：**
 1. 注解处理器会生成以“EventsDefineAs”开头的接口文件
@@ -83,7 +83,7 @@ InvokingMessage
 Via Gradle:
 
 ```
-implementation 'com.jeremyliao:invoking-message-core:1.0.0'
+implementation 'com.jeremyliao:invoking-message-core:1.0.1'
 ```
 
 ## 示例
