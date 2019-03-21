@@ -86,5 +86,14 @@ Via Gradle:
 implementation 'com.jeremyliao:invoking-message-core:1.0.1'
 ```
 
+## 混淆规则
+
+```
+-dontwarn com.jeremyliao.im.**
+-keep class com.jeremyliao.im.** { *; }
+-keep class com.jeremyliao.liveeventbus.** { *; }
+-keep class **.generated.im.** { *; }
+```
+
 ## 示例
 invoking-message适合在组件化的架构中用来实现组件间的通信，特别添加了一个在组件中使用invoking-message的Demo：[demo](https://github.com/JeremyLiao/invoking-message/tree/master/demo)
