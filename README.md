@@ -92,7 +92,6 @@ implementation 'com.jeremyliao:invoking-message-core:1.0.1'
 -dontwarn com.jeremyliao.im.**
 -keep class com.jeremyliao.im.** { *; }
 -keep class com.jeremyliao.liveeventbus.** { *; }
--keep class **.generated.im.** { *; }
 ```
 
 ## 示例
