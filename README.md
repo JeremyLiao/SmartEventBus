@@ -73,7 +73,7 @@ InvokingMessage
         .get()
         .as(EventsDefineAsDemoEvents.class)
         .EVENT2()
-        .setValue("test");
+        .post("test");
 ```
 **关键点：**
 1. 发送消息的整个过程为链式调用
