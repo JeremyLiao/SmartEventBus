@@ -19,7 +19,7 @@ android {
 }
 
 dependencies {
-    api 'com.jeremyliao:live-event-bus:1.2.2'
-    api project(':invoking-message:base')
-//    api 'com.jeremyliao:invoking-message-base:1.0.0'
+    api 'com.jeremyliao:live-event-bus:1.4.0'
+//    api project(':invoking-message:base')
+    api 'com.jeremyliao:invoking-message-base:1.0.0'
 }
