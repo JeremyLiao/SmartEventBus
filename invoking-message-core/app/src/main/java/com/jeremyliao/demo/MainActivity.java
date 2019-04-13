@@ -34,6 +34,6 @@ public class MainActivity extends AppCompatActivity {
                 .get()
                 .as(EventsDefineAsDemoEvents.class)
                 .EVENT2()
-                .setValue("aa");
+                .post("aa");
     }
 }
