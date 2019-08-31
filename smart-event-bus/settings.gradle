@@ -1,0 +1,4 @@
+include ':app'
+
+include ':eventbus:base'
+include ':eventbus:compiler'
