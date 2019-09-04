@@ -59,6 +59,7 @@ public class SmartEventProcessor extends AbstractProcessor {
     String packageName = null;
     String busName = null;
     List<EventInfo> eventInfos = new ArrayList<>();
+    boolean isGenerateTargetClass = false;
 
     @Override
     public synchronized void init(ProcessingEnvironment processingEnvironment) {
@@ -83,9 +84,9 @@ public class SmartEventProcessor extends AbstractProcessor {
 
     @Override
     public boolean process(Set<? extends TypeElement> set, RoundEnvironment roundEnvironment) {
-        if (!roundEnvironment.processingOver()) {
+        System.out.println(TAG + "roundEnvironment: " + roundEnvironment);
+        if (!roundEnvironment.processingOver() && !isGenerateTargetClass) {
             processAnnotations(roundEnvironment);
-        } else {
             generateBusCode();
         }
         return true;
@@ -194,6 +195,7 @@ public class SmartEventProcessor extends AbstractProcessor {
             JavaFile.builder(packageName, typeSpec)
                     .build()
                     .writeTo(filer);
+            isGenerateTargetClass = true;
         } catch (IOException e) {
             e.printStackTrace();
         }

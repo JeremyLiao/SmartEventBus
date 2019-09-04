@@ -3,12 +3,13 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "com.jeremy.demo"
+        applicationId "com.jeremyliao.demo"
         minSdkVersion 15
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
     }
     buildTypes {
         release {
@@ -29,6 +30,9 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
     implementation 'com.jeremyliao:live-event-bus:1.5.0'
+
     implementation project(':eventbus:base')
     annotationProcessor project(':eventbus:compiler')
+//    implementation 'com.jeremyliao:smart-event-bus-base:0.0.1'
+//    annotationProcessor 'com.jeremyliao:smart-event-bus-compiler:0.0.1'
 }

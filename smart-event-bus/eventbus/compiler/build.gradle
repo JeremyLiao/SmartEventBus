@@ -9,5 +9,5 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'com.jeremyliao:live-event-bus:1.5.0'
     implementation project(':eventbus:base')
-//    implementation 'com.jeremyliao:invoking-message-base:1.0.0'
+//    implementation 'com.jeremyliao:smart-event-bus-base:0.0.1'
 }
