@@ -1,98 +1,76 @@
-# invoking-message
-![license](https://img.shields.io/github/license/JeremyLiao/invoking-message.svg) [![version](https://img.shields.io/badge/JCenter-v1.1.0-blue.svg)](https://mvnrepository.com/artifact/com.jeremyliao/live-event-bus)
+# SmartEventBus
+![license](https://img.shields.io/github/license/JeremyLiao/SmartEventBus.svg) [![version](https://img.shields.io/badge/JCenter-v0.0.1-blue.svg)](https://mvnrepository.com/artifact/com.jeremyliao/)
 
-invoking-message是一款Android平台消息总线框架，基于[LiveEventBus](https://github.com/JeremyLiao/LiveEventBus)实现。它颠覆了传统消息总线定义和使用的方式，通过链式的方法调用发送和接收消息，使用更简单。
+SmartEventBus是一个Android平台的消息总线框架，这是一款非常smart的消息总线框架，能让你定制自己的消息总线。
 
 ![logo](/images/logo.png)
 
-## invoking-message的特点
-1. 基于[LiveEventBus](https://github.com/JeremyLiao/LiveEventBus)实现，具有LiveEventBus所有功能。
-2. 通过链式的方法调用发送和接收消息，使用起来更加简单。
-3. 只能使用预定义的消息，加强约束。
-4. 定义的消息更容易查找和溯源。
-5. 适合在组件化的架构中用来实现组件间的通信。
+## 常用消息总线对比
 
-**所以，无论你之前使用哪种消息总线框架，如果你曾经遇到如下问题，请尝试invoking-message，它能解决你的痛点：**
-1. 随意定义消息，不易管理，一个消息想知道谁是发送者，谁又是观察者，只能通过Ctrl+F，非常麻烦，如果消息分布在不同组件中，查找起来就更加麻烦了。
-2. 消息定义越多，就越不清楚到底有哪些消息，写代码的时候是不是经常问自己：“哎，我该发送个什么消息来着？”。
-3. 编写代码的时候一不小心把消息写错了，又不会报错，怎么收不到消息了，查找问题好麻烦。
+消息总线 | Sticky | 生命周期感知 | 跨进程/APP | Customize（定制能力）
+---|---|---|---|---
+EventBus | :white_check_mark: | :x: | :x: | :x:
+RxBus | :white_check_mark: | :x: | :x: | :x:
+LiveEventBus | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x:
+SmartEventBus | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark:
 
-## invoking-message的使用步骤
+## SmartEventBus的使用步骤
 #### 1. 定义消息
 
 ```
-@InvokingEventsDefine()
-public class DemoEvents {
+@SmartEvent(keys = {"event1", "event2", "event3"})
+public class MessageEvent {
 
-    public static final String EVENT1 = "event1";
+    public String msg;
 
-    @EventType(String.class)
-    public static final String EVENT2 = "event2";
-
-    @EventType(TestEventBean.class)
-    public static final String EVENT3 = "event3";
+    public MessageEvent(String msg) {
+        this.msg = msg;
+    }
 }
 ```
-**关键点：**
-1. 定义消息的类需加上注解@InvokingEventsDefine
-2. 消息的名字需要定义成**public static final String**类型
-3. 用注解@EventType定义消息体的类型，如不使用，默认为Object，@EventType支持自定义类型
 
-#### 2. 使用compiler
-定义了消息的Module，需要在build.gradle中使用compiler处理注解：
+#### 2. 配置你的消息总线（可选）
 
 ```
-annotationProcessor 'com.jeremyliao:invoking-message-compiler:1.1.0'
+@SmartEventConfig(packageName = "yourPackageName", busName = "YourClassName")
+public class BaseEventConfig {
+}
 ```
-**关键点：**
-1. 注解处理器会生成以“EventsDefineAs”开头的接口文件
-2. 编写代码的时候，如果记不得定义了哪些消息，请查找以“EventsDefineAs”开头的类
+- 配置之后，会生成定制消息总线：yourPackageName.YourClassName
+- 也可以不配置，生成默认命名DefaultSmartEventBus的消息总线
 
-#### 3. 定义subscribers
+#### 3. 订阅和发送消息
 
 ```
-InvokingMessage
-        .get()
-        .as(EventsDefineAsDemoEvents.class)
-        .EVENT2()
-        .observe(this, new Observer<String>() {
+MySmartEventBus
+        .event1()
+        .observe(this, new Observer<MessageEvent>() {
             @Override
-            public void onChanged(@Nullable String s) {
-                Toast.makeText(MainActivity.this, s, Toast.LENGTH_LONG).show();
+            public void onChanged(@Nullable MessageEvent event) {
             }
         });
 ```
-**关键点：**
-1. 定义subscribers的整个过程为链式调用
-2. 支持更多定义subscribers的方式，与[LiveEventBus](https://github.com/JeremyLiao/LiveEventBus)一致
-
-#### 4. 发送消息
 
 ```
-InvokingMessage
-        .get()
-        .as(EventsDefineAsDemoEvents.class)
-        .EVENT2()
-        .post("test");
+MySmartEventBus
+        .event1()
+        .post(new MessageEvent("msg from smarteventbus"));
 ```
-**关键点：**
-1. 发送消息的整个过程为链式调用
-2. 支持更多发送消息的方式，与[LiveEventBus](https://github.com/JeremyLiao/LiveEventBus)一致
 
-## 添加依赖
-Via Gradle:
+#### 4. 添加依赖和注解处理器
 
 ```
-implementation 'com.jeremyliao:invoking-message-core:1.1.0'
+implementation 'com.jeremyliao:smart-event-bus-base:0.0.1'
+annotationProcessor 'com.jeremyliao:smart-event-bus-compiler:0.0.2'
 ```
 
 ## 混淆规则
 
 ```
--dontwarn com.jeremyliao.im.**
--keep class com.jeremyliao.im.** { *; }
+-dontwarn com.jeremyliao.liveeventbus.**
 -keep class com.jeremyliao.liveeventbus.** { *; }
 ```
 
-## 示例
-invoking-message适合在组件化的架构中用来实现组件间的通信，特别添加了一个在组件中使用invoking-message的Demo：[demo](https://github.com/JeremyLiao/invoking-message/tree/master/demo)
+## SmartEventBus的前身——[invoking-message](/docs/IM_README.md)
+
+## 其他
