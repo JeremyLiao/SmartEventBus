@@ -14,4 +14,10 @@
         android:onClick="sendMsg"
         android:text="send message" />
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="sendStickyMsg"
+        android:text="send sticky message" />
+
 </LinearLayout>

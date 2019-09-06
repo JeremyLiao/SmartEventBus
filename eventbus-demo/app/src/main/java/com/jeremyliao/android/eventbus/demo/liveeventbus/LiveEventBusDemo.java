@@ -1,6 +1,7 @@
 package com.jeremyliao.android.eventbus.demo.liveeventbus;
 
 import android.arch.lifecycle.Observer;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -8,22 +9,17 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.jeremyliao.android.eventbus.demo.R;
-import com.jeremyliao.android.eventbus.demo.eventbus.event.MessageEvent;
-import com.jeremyliao.android.eventbus.rxbus.RxBus;
 import com.jeremyliao.liveeventbus.LiveEventBus;
-
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.functions.Consumer;
 
 public class LiveEventBusDemo extends AppCompatActivity {
 
     private static final String TEST_KEY = "test_key";
+    private static final String TEST_STICKY_KEY = "test_sticky_key";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_rxbus_demo);
+        setContentView(R.layout.activity_eventbus_demo);
         LiveEventBus
                 .get(TEST_KEY, String.class)
                 .observe(this, new Observer<String>() {
@@ -38,5 +34,12 @@ public class LiveEventBusDemo extends AppCompatActivity {
         LiveEventBus
                 .get(TEST_KEY)
                 .post("msg from liveeventbus");
+    }
+
+    public void sendStickyMsg(View v) {
+        LiveEventBus
+                .get(TEST_STICKY_KEY)
+                .post("sticky msg from liveeventbus");
+        startActivity(new Intent(this, LiveEventBusStickyDemo.class));
     }
 }

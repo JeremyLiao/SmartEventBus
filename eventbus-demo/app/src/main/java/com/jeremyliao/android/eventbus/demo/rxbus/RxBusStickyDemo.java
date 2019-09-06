@@ -1,13 +1,9 @@
 package com.jeremyliao.android.eventbus.demo.rxbus;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 import android.widget.Toast;
 
-import com.jeremyliao.android.eventbus.demo.R;
-import com.jeremyliao.android.eventbus.demo.event.MessageEvent;
 import com.jeremyliao.android.eventbus.demo.event.StickyMessageEvent;
 import com.jeremyliao.android.eventbus.rxbus.RxBus;
 
@@ -15,22 +11,21 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
 
-public class RxBusDemo extends AppCompatActivity {
+public class RxBusStickyDemo extends AppCompatActivity {
 
     private final CompositeDisposable disposable = new CompositeDisposable();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_eventbus_demo);
         disposable.add(
                 RxBus.getInstance()
-                        .toObservable(MessageEvent.class)
+                        .toObservableSticky(StickyMessageEvent.class)
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Consumer<MessageEvent>() {
+                        .subscribe(new Consumer<StickyMessageEvent>() {
                             @Override
-                            public void accept(MessageEvent event) throws Exception {
-                                Toast.makeText(RxBusDemo.this, "receive massage: " + event.msg, Toast.LENGTH_SHORT).show();
+                            public void accept(StickyMessageEvent event) throws Exception {
+                                Toast.makeText(RxBusStickyDemo.this, "receive massage: " + event.msg, Toast.LENGTH_SHORT).show();
                             }
                         }));
     }
@@ -41,13 +36,4 @@ public class RxBusDemo extends AppCompatActivity {
         disposable.dispose();
     }
 
-
-    public void sendMsg(View v) {
-        RxBus.getInstance().post(new MessageEvent("msg from rxbus"));
-    }
-
-    public void sendStickyMsg(View v) {
-        RxBus.getInstance().postSticky(new StickyMessageEvent("sticky msg from rxbus"));
-        startActivity(new Intent(this, RxBusStickyDemo.class));
-    }
 }

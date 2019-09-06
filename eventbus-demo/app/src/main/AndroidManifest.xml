@@ -18,9 +18,13 @@
         </activity>
 
         <activity android:name=".eventbus.EventBusDemo" />
+        <activity android:name=".eventbus.EventBusStickyDemo" />
         <activity android:name=".rxbus.RxBusDemo" />
+        <activity android:name=".rxbus.RxBusStickyDemo" />
         <activity android:name=".liveeventbus.LiveEventBusDemo" />
+        <activity android:name=".liveeventbus.LiveEventBusStickyDemo" />
         <activity android:name=".smarteventbus.SmartEventBusDemo" />
+        <activity android:name=".smarteventbus.SmartEventBusStickyDemo" />
     </application>
 
 </manifest>
