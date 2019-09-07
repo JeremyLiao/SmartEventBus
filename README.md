@@ -7,12 +7,14 @@ SmartEventBus是一个Android平台的消息总线框架，这是一款非常sma
 
 ## 常用消息总线对比
 
-消息总线 | Sticky | 生命周期感知 | 跨进程/APP | Customize（定制能力）
----|---|---|---|---
-EventBus | :white_check_mark: | :x: | :x: | :x:
-RxBus | :white_check_mark: | :x: | :x: | :x:
-LiveEventBus | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x:
-SmartEventBus | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark:
+消息总线 | 延迟发送 | 有序接收消息 | Sticky | 生命周期感知 | 跨进程/APP | Customize（定制能力） | 线程分发
+---|---|---|---|---|---|----|---
+EventBus | :x: | :white_check_mark: | :white_check_mark: | :x: | :x: | :x: | :white_check_mark:
+RxBus | :x: | :x: | :white_check_mark: | :x: | :x: | :x: | :white_check_mark:
+LiveEventBus | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x: | :x:
+SmartEventBus | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :x:
+
+#### 想了解更多？请点击：[全面了解Android消息总线](https://github.com/JeremyLiao/SmartEventBus/blob/master/docs/bus_all.md)
 
 ## SmartEventBus的使用步骤
 #### 1. 定义消息
