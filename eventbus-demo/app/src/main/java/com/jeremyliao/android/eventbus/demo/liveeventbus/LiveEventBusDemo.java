@@ -15,13 +15,22 @@ public class LiveEventBusDemo extends AppCompatActivity {
 
     private static final String TEST_KEY = "test_key";
     private static final String TEST_STICKY_KEY = "test_sticky_key";
+    private static final String TEST_BRC_KEY = "test_brc_key";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_eventbus_demo);
+        setContentView(R.layout.activity_liveeventbus_demo);
         LiveEventBus
                 .get(TEST_KEY, String.class)
+                .observe(this, new Observer<String>() {
+                    @Override
+                    public void onChanged(@Nullable String s) {
+                        Toast.makeText(LiveEventBusDemo.this, "receive massage: " + s, Toast.LENGTH_SHORT).show();
+                    }
+                });
+        LiveEventBus
+                .get(TEST_BRC_KEY, String.class)
                 .observe(this, new Observer<String>() {
                     @Override
                     public void onChanged(@Nullable String s) {
@@ -41,5 +50,11 @@ public class LiveEventBusDemo extends AppCompatActivity {
                 .get(TEST_STICKY_KEY)
                 .post("sticky msg from liveeventbus");
         startActivity(new Intent(this, LiveEventBusStickyDemo.class));
+    }
+
+    public void sendBroadcastMsg(View v) {
+        LiveEventBus
+                .get(TEST_BRC_KEY)
+                .broadcast("msg from liveeventbus");
     }
 }
