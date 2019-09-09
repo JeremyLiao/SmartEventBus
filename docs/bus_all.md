@@ -166,6 +166,7 @@ public class MessageEvent {
     }
 }
 ```
+SmartEventBus在消息定义上与EventBus、RxBus类似。SmartEventBus可以通过注解@SmartEvent定义多个同类消息，这样与EventBus、RxBus相比，可以大大简化消息定义。比如我们定义的多个消息，消息体都是String类型的，在EventBus、RxBus中，我们需要定义多个消息类，而在SmartEventBus中，我们只需要定义一个消息类，指定多个keys就可以了。
 #### 2. 配置消息总线
 
 ```
