@@ -3,7 +3,7 @@
 
 SmartEventBus是一个Android平台的消息总线框架，这是一款非常smart的消息总线框架，能让你定制自己的消息总线。
 
-![logo](/images/logo.png)
+![logo](https://user-images.githubusercontent.com/23290617/68295450-6a4dca00-00cd-11ea-8f26-0a5694da0d8a.png)
 
 ## 常用消息总线对比
 
