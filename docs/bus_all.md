@@ -22,7 +22,7 @@ LiveEventBus基于Android arch库的LiveData实现，具有生命周期感知、
 ### SmartEventBus
 SmartEventBus基于LiveEventBus实现，能让你定制自己的消息总线。
 
-[SmartEventBus](https://github.com/JeremyLiao/LiveEventBus)
+[SmartEventBus](https://github.com/JeremyLiao/SmartEventBus)
 
 ### 常用消息总线对比
 用一张图表可以看出这几个消息总线的特性：
